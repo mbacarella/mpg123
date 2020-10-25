@@ -1,0 +1,3 @@
+(library
+  (name mpg123)
+  (libraries ctypes mpg123_c))
