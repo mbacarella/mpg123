@@ -50,7 +50,7 @@
     (run ./function_gen.exe ml mpg123_stub)))
 
 (library
-  (name mpg123_c)
+  (public_name mpg123_c)
   (libraries ctypes mpg123_c_function_descriptions)
   (modules Mpg123_c Mpg123_c_generated_functions)
   (foreign_stubs
