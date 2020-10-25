@@ -1,5 +1,8 @@
 This is an OCaml package that provides bindings to the mpg123 library.
 
+It uses the ctypes library to generate the C code, which should improve
+the reliability of the library.
+
 Installing
 ===
 
