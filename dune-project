@@ -3,8 +3,10 @@
 
 (generate_opam_files true)
 (license "LGPL-2.1-or-later with OCaml-LGPL-linking-exception")
-(authors "Michael Bacarella")
-(maintainers "m@bacarella.com")
+(authors "Michael Bacarella <m@bacarella.com>")
+(maintainers "Michael Bacarella <m@bacarella.com>")
+(homepage "https://github.com/mbacarella/mpg123")
+(bug_reports "https://github.com/mbacarella/mpg123/issues")
 (package
   (name mpg123)
   (synopsis "MP3 decoding library")

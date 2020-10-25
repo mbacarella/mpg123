@@ -2,9 +2,11 @@
 opam-version: "2.0"
 synopsis: "MP3 decoding library"
 description: "OCaml bindings to libmpg123"
-maintainer: ["m@bacarella.com"]
-authors: ["Michael Bacarella"]
+maintainer: ["Michael Bacarella <m@bacarella.com>"]
+authors: ["Michael Bacarella <m@bacarella.com>"]
 license: "LGPL-2.1-or-later with OCaml-LGPL-linking-exception"
+homepage: "https://github.com/mbacarella/mpg123"
+bug-reports: "https://github.com/mbacarella/mpg123/issues"
 depends: [
   "dune" {>= "2.0"}
   "ctypes"
