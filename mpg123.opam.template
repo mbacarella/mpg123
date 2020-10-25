@@ -1,0 +1,3 @@
+depexts: [
+  ["libmpg123-dev"] {os-family = "debian"}
+]
