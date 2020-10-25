@@ -25,3 +25,6 @@ build: [
     "@doc" {with-doc}
   ]
 ]
+depexts: [
+  ["libmpg123-dev"] {os-family = "debian"}
+]

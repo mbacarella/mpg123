@@ -12,3 +12,4 @@
   (synopsis "MP3 decoding library")
   (description "OCaml bindings to libmpg123")
   (depends ctypes))
+;includes mpg123.opam.template

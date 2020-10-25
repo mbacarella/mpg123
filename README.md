@@ -11,6 +11,6 @@ Installing
 Status
 ===
 
-There's enough here to open an mp3, query some metadata, and read audio.
+There's just enough here to open an mp3, query some metadata, and read audio.
 
 Contributions welcome.
