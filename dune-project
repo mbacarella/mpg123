@@ -11,5 +11,10 @@
   (name mpg123)
   (synopsis "MP3 decoding library")
   (description "OCaml bindings to libmpg123")
-  (depends ctypes))
-;includes mpg123.opam.template
+  (depends
+    (ocaml (>= 4.03))
+    (dune (>= 2.0))
+    ctypes
+    ctypes-foreign
+    conf-libmpg123
+  ))

@@ -1,5 +1,9 @@
 ; This is a copy/paste from the luv bindings.
 ; If you know how to make this shorter please file a bug.
+(rule
+ (targets c_flags.sexp c_flags.txt c_library_flags.sexp)
+ (action  (run ../config/discover.exe)))
+
 (library
   (name mpg123_c_type_descriptions)
   (public_name mpg123.c_type_descriptions)
@@ -21,6 +25,7 @@
   (action (system "%{cc} %{c} \
     -I '%{lib:ctypes:.}' \
     -I %{ocaml_where} \
+    %{read:c_flags.txt} \
     -o %{targets}")))
 
 (rule
@@ -58,5 +63,6 @@
   (modules Mpg123_c Mpg123_c_generated_functions)
   (foreign_stubs
     (language c)
-    (names c_generated_functions))
-  (c_library_flags -lmpg123))
+    (names c_generated_functions)
+    (flags (:include c_flags.sexp)))
+  (c_library_flags (:include c_library_flags.sexp)))
