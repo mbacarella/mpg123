@@ -10,7 +10,7 @@ let () =
       match C.Pkg_config.get c with
       | None -> default
       | Some pc ->
-        match C.Pkg_config.query pc ~package:"mpg123" with
+        match C.Pkg_config.query pc ~package:"libmpg123" with
         | None -> default
         | Some deps -> deps
     in
