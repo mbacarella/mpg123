@@ -57,6 +57,12 @@ type id3_v1 =
   ; comment : string
   ; genre : char }
 
+type id3_v2_text =
+  { lang : string
+  ; id : string
+  ; description : string
+  ; text : string }
+
 type id3_v2 =
   { version : char
   ; title : string
@@ -65,9 +71,9 @@ type id3_v2 =
   ; year : string
   ; genre : string
   ; comment : string
-  ; comment_list : string list
-  ; text : string list
-  ; extra : string list
+  ; comment_list : id3_v2_text list
+  ; text : id3_v2_text list
+  ; extra : id3_v2_text list
   (* missing: picture *)
   }
 

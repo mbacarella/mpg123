@@ -27,6 +27,12 @@ type id3_v1 =
   ; comment : string
   ; genre : char }
 
+type id3_v2_text =
+  { lang : string
+  ; id : string
+  ; description : string
+  ; text : string }
+
 type id3_v2 =
   { version : char
   ; title : string
@@ -35,9 +41,9 @@ type id3_v2 =
   ; year : string
   ; genre : string
   ; comment : string
-  ; comment_list : string list
-  ; text : string list
-  ; extra : string list }
+  ; comment_list : id3_v2_text list
+  ; text : id3_v2_text list
+  ; extra : id3_v2_text list }
   (* missing: picture *)
 
 type output_format =
@@ -200,12 +206,17 @@ module Functions = struct
             else if len = 0 then []
             else
               let ms = CArray.from_ptr ms len in
-              let out = Array.make len "" in
-              for i=0 to pred len; do
-                let mt = CArray.get ms i in
-                out.(i) <- read_string (getf mt MT.text)
-              done;
-              Array.to_list out
+              let cass = char_array_as_string in
+              let f i acc =
+                if i = len then List.rev acc
+                else
+                  let mt = CArray.get ms i in
+                  { lang = cass @@ getf mt MT.lang
+                  ; id = cass @@ getf mt MT.id
+                  ; description = read_string (getf mt MT.description)
+                  ; text = read_string (getf mt MT.text) } :: acc
+              in
+              f 0 []
           in
           let get = get_mpg123_string in
           let get_texts = get_mpg123_texts in
