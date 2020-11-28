@@ -63,6 +63,13 @@ type id3_v2_text =
   ; description : string
   ; text : string }
 
+type id3_v2_picture =
+  { type_ : char
+  ; description : string
+  ; mime_type : string
+  ; size : int
+  ; data : string }
+
 type id3_v2 =
   { version : char
   ; title : string
@@ -74,8 +81,7 @@ type id3_v2 =
   ; comment_list : id3_v2_text list
   ; text : id3_v2_text list
   ; extra : id3_v2_text list
-  (* missing: picture *)
-  }
+  ; picture : id3_v2_picture list }
 
 type output_format =
   { rate : int

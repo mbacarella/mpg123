@@ -33,6 +33,13 @@ type id3_v2_text =
   ; description : string
   ; text : string }
 
+type id3_v2_picture =
+  { type_ : char
+  ; description : string
+  ; mime_type : string
+  ; size : int
+  ; data : string }
+
 type id3_v2 =
   { version : char
   ; title : string
@@ -43,8 +50,8 @@ type id3_v2 =
   ; comment : string
   ; comment_list : id3_v2_text list
   ; text : id3_v2_text list
-  ; extra : id3_v2_text list }
-  (* missing: picture *)
+  ; extra : id3_v2_text list
+  ; picture : id3_v2_picture list }
 
 type output_format =
   { rate : int
@@ -187,6 +194,7 @@ module Functions = struct
           let module ID = C.Types.Id3v2 in
           let module MS = C.Types.Mpg123_string in
           let module MT = C.Types.Mpg123_text in
+          let module MP = C.Types.Mpg123_picture in
           let read_string ms =
             let len = getf ms MS.fill in
             if len < 1 then ""
@@ -218,8 +226,31 @@ module Functions = struct
               in
               f 0 []
           in
+          let get_mpg123_pictures num x =
+            let len = getf v2 num in
+            let ms = getf v2 x in
+            if is_null ms then []
+            else if len = 0 then []
+            else
+              let ms = CArray.from_ptr ms len in
+              let cass = char_array_as_string in
+              let f i acc =
+                if i = len then List.rev acc
+                else
+                  let mp = CArray.get ms i in
+                  let size = getf mp MP.size in
+                  let data = CArray.from_ptr (getf mp MP.data) (size-1) in
+                  { type_ = getf mp MP.type_
+                  ; description = read_string (getf mp MP.description)
+                  ; mime_type = read_string (getf mp MP.mime_type)
+                  ; size = getf mp MP.size
+                  ; data = cass data } :: acc
+              in
+              f 0 []
+          in
           let get = get_mpg123_string in
           let get_texts = get_mpg123_texts in
+          let get_pics = get_mpg123_pictures in
           Some { version = getf v2 ID.version
                ; title = get ID.title
                ; artist = get ID.artist
@@ -229,7 +260,8 @@ module Functions = struct
                ; comment = get ID.comment
                ; comment_list = get_texts ID.comments ID.comment_list
                ; text = get_texts ID.texts ID.text
-               ; extra = get_texts ID.extras ID.extra }
+               ; extra = get_texts ID.extras ID.extra
+               ; picture = get_pics ID.pictures ID.picture }
       in
       Ok (v1, v2)
     end
