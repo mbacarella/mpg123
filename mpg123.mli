@@ -65,7 +65,10 @@ type id3_v2 =
   ; year : string
   ; genre : string
   ; comment : string
-  (* missing: comment_list, text, extra, picture *)
+  ; comment_list : string list
+  ; text : string list
+  ; extra : string list
+  (* missing: picture *)
   }
 
 type output_format =

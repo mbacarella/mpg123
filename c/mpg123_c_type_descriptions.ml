@@ -27,7 +27,15 @@ module Types (F : Ctypes.TYPE) = struct
     let fill = field t "fill" int
     let () = seal t
   end
-
+  module Mpg123_text = struct
+    type t = [`Mpg123_text] structure
+    let t : t typ   = typedef (structure "`Mpg123_text") "mpg123_text"
+    let lang        = field t "lang" (array 3 char)
+    let id          = field t "id" (array 4 char)
+    let description = field t "description" Mpg123_string.t
+    let text        = field t "text" Mpg123_string.t
+    let () = seal t
+  end
   module Id3v1 = struct
     type t = [`Id3v1] structure
     let t : t typ = typedef (structure "`Id3v1") "mpg123_id3v1"
@@ -40,7 +48,6 @@ module Types (F : Ctypes.TYPE) = struct
     let genre   = field t "genre" char
     let () = seal t
   end
-
   module Id3v2 = struct
     type t = [`Id3v2] structure
     let t : t typ = typedef (structure "`Id3v2") "mpg123_id3v2"
@@ -51,6 +58,12 @@ module Types (F : Ctypes.TYPE) = struct
     let year    = field t "year" (ptr Mpg123_string.t)
     let genre   = field t "genre" (ptr Mpg123_string.t)
     let comment = field t "comment" (ptr Mpg123_string.t)
+    let comment_list = field t "comment_list" (ptr Mpg123_text.t)
+    let comments = field t "comments" int
+    let text    = field t "text" (ptr Mpg123_text.t)
+    let texts   = field t "texts" int
+    let extra   = field t "extra" (ptr Mpg123_text.t)
+    let extras  = field t "extras" int
     let () = seal t
   end
 end

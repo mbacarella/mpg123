@@ -34,8 +34,11 @@ type id3_v2 =
   ; album : string
   ; year : string
   ; genre : string
-  ; comment : string }
-  (* missing: comment_list, text, extra, picture *)
+  ; comment : string
+  ; comment_list : string list
+  ; text : string list
+  ; extra : string list }
+  (* missing: picture *)
 
 type output_format =
   { rate : int
@@ -177,25 +180,45 @@ module Functions = struct
           let v2 = !@ (v2 +@ 0) in
           let module ID = C.Types.Id3v2 in
           let module MS = C.Types.Mpg123_string in
+          let module MT = C.Types.Mpg123_text in
+          let read_string ms =
+            let len = getf ms MS.fill in
+            if len < 1 then ""
+            else
+              let a = CArray.from_ptr (getf ms MS.p) (len-1) in
+              char_array_as_string a
+          in
           let get_mpg123_string x =
             let ms = getf v2 x in
             if is_null ms then ""
+            else read_string (!@ ms)
+          in
+          let get_mpg123_texts num x =
+            let len = getf v2 num in
+            let ms = getf v2 x in
+            if is_null ms then []
+            else if len = 0 then []
             else
-              let ms = !@ ms in
-              let len = getf ms MS.fill in
-              if len < 1 then ""
-              else
-                let a = CArray.from_ptr (getf ms MS.p) (len-1) in
-                char_array_as_string a
+              let ms = CArray.from_ptr ms len in
+              let out = Array.make len "" in
+              for i=0 to pred len; do
+                let mt = CArray.get ms i in
+                out.(i) <- read_string (getf mt MT.text)
+              done;
+              Array.to_list out
           in
           let get = get_mpg123_string in
+          let get_texts = get_mpg123_texts in
           Some { version = getf v2 ID.version
                ; title = get ID.title
                ; artist = get ID.artist
                ; album = get ID.album
                ; year = get ID.year
                ; genre = get ID.genre
-               ; comment = get ID.comment }
+               ; comment = get ID.comment
+               ; comment_list = get_texts ID.comments ID.comment_list
+               ; text = get_texts ID.texts ID.text
+               ; extra = get_texts ID.extras ID.extra }
       in
       Ok (v1, v2)
     end
