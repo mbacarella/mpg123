@@ -1,6 +1,6 @@
 open Ctypes
 
-module Types = Mpg123_c_types
+module Types = Types_generated
 
 module Functions (F : Ctypes.FOREIGN) = struct
   open F

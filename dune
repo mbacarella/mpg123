@@ -1,3 +1,17 @@
 (library
+  (name mpg123)
   (public_name mpg123)
-  (libraries ctypes mpg123.c))
+  (flags (:standard -w -9-27))
+  (ctypes
+    (external_library_name mpg123)
+    (build_flags_resolver pkg_config)
+    (headers (include "mpg123.h"))
+    (type_description
+      (instance Types)
+      (functor Type_description))
+    (function_description
+      (concurrency unlocked)
+      (instance Functions)
+      (functor Function_description))
+    (generated_types Types_generated)
+    (generated_entry_point C)))

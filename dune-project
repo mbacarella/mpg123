@@ -1,4 +1,7 @@
-(lang dune 2.0)
+(lang dune 2.8)
+(using ctypes 0.1)
+(use_standard_c_and_cxx_flags false)
+
 (name mpg123)
 
 (generate_opam_files true)
@@ -13,7 +16,7 @@
   (description "OCaml bindings to libmpg123")
   (depends
     (ocaml (>= 4.03))
-    (dune (>= 2.0))
+    (dune (>= 2.8))
     dune-configurator
     conf-pkg-config
     ctypes
