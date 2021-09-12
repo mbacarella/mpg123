@@ -1,7 +1,6 @@
 (lang dune 2.0)
 
 (name mpg123)
-(version 2074300-dirty)
 
 (generate_opam_files true)
 
