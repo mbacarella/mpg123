@@ -1,6 +1,7 @@
 (lang dune 2.0)
 
 (name mpg123)
+(version 2074300-dirty)
 
 (generate_opam_files true)
 
@@ -26,6 +27,7 @@
    (>= 2.0))
   dune-configurator
   conf-pkg-config
-  ctypes
+  (ctypes
+   (>= 0.13.0))
   ctypes-foreign
   conf-libmpg123))
