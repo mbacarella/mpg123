@@ -9,15 +9,16 @@ homepage: "https://github.com/mbacarella/mpg123"
 bug-reports: "https://github.com/mbacarella/mpg123/issues"
 depends: [
   "ocaml" {>= "4.03"}
-  "dune" {>= "2.0"}
+  "dune" {>= "2.7" & >= "2.0"}
   "dune-configurator"
   "conf-pkg-config"
   "ctypes" {>= "0.13.0"}
   "ctypes-foreign"
   "conf-libmpg123"
+  "odoc" {with-doc}
 ]
 build: [
-  ["dune" "subst"] {pinned}
+  ["dune" "subst"] {dev}
   [
     "dune"
     "build"
