@@ -64,25 +64,25 @@ type output_format =
   }
 
 (*
-let memcpy ~dest ~src n =
-  let cast p = from_voidp (array n uchar) p in
-  cast dest <-@ !@(cast src)
+   let memcpy ~dest ~src n =
+   let cast p = from_voidp (array n uchar) p in
+   cast dest <-@ !@(cast src)
 *)
 
 (*
-let char_array_as_string a =
-	let len = Ctypes.CArray.length a in
-	let b = Buffer.create len in
-	try
-		for i = 0 to len -1 do
-			let c = Ctypes.CArray.get a i in
-			if c = '\x00'
-			then raise Exit
-			else Buffer.add_char b c
-		done;
-		Buffer.contents b
-	with Exit ->
-		Buffer.contents b
+   let char_array_as_string a =
+   	let len = Ctypes.CArray.length a in
+   	let b = Buffer.create len in
+   	try
+   		for i = 0 to len -1 do
+   			let c = Ctypes.CArray.get a i in
+   			if c = '\x00'
+   			then raise Exit
+   			else Buffer.add_char b c
+   		done;
+   		Buffer.contents b
+   	with Exit ->
+   		Buffer.contents b
 *)
 let char_array_as_string a = Ctypes.(string_from_ptr (CArray.start a) ~length:(CArray.length a))
 
@@ -222,17 +222,20 @@ module Functions = struct
               else (
                 let ms = CArray.from_ptr ms len in
                 let cass = char_array_as_string in
-                let f i acc =
+                let rec f i acc =
                   if i = len
                   then List.rev acc
                   else (
                     let mt = CArray.get ms i in
-                    { lang = cass @@ getf mt MT.lang;
-                      id = cass @@ getf mt MT.id;
-                      description = read_string (getf mt MT.description);
-                      text = read_string (getf mt MT.text)
-                    }
-                    :: acc)
+                    let acc =
+                      { lang = cass @@ getf mt MT.lang;
+                        id = cass @@ getf mt MT.id;
+                        description = read_string (getf mt MT.description);
+                        text = read_string (getf mt MT.text)
+                      }
+                      :: acc
+                    in
+                    f (succ i) acc)
                 in
                 f 0 [])
             in
@@ -246,20 +249,23 @@ module Functions = struct
               else (
                 let ms = CArray.from_ptr ms len in
                 let cass = char_array_as_string in
-                let f i acc =
+                let rec f i acc =
                   if i = len
                   then List.rev acc
                   else (
                     let mp = CArray.get ms i in
                     let size = getf mp MP.size in
                     let data = CArray.from_ptr (getf mp MP.data) (size - 1) in
-                    { type_ = getf mp MP.type_;
-                      description = read_string (getf mp MP.description);
-                      mime_type = read_string (getf mp MP.mime_type);
-                      size = getf mp MP.size;
-                      data = cass data
-                    }
-                    :: acc)
+                    let acc =
+                      { type_ = getf mp MP.type_;
+                        description = read_string (getf mp MP.description);
+                        mime_type = read_string (getf mp MP.mime_type);
+                        size = getf mp MP.size;
+                        data = cass data
+                      }
+                      :: acc
+                    in
+                    f (succ i) acc)
                 in
                 f 0 [])
             in
