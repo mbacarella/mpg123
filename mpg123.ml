@@ -10,6 +10,7 @@ module Constants = struct
   let flag_new_icy = mpg123_new_icy
   let enc_signed16 = mpg123_enc_signed16
   let enc_float32 = mpg123_enc_float32
+  let enc_float64 = mpg123_enc_float64
 end
 
 type error_code = int
@@ -123,6 +124,10 @@ module Functions = struct
   let decoder mh ~decoder_name = ok_unit_or_err (mpg123_decoder mh decoder_name)
   let current_decoder = mpg123_current_decoder
   let open_ mh ~path = ok_unit_or_err (mpg123_open mh path)
+
+  let open_fixed mh ~path ~channels ~encoding =
+    ok_unit_or_err (mpg123_open_fixed mh path channels encoding)
+
   let close mh = ok_unit_or_err (mpg123_close mh)
 
   type buf = char CArray.t
@@ -148,7 +153,7 @@ module Functions = struct
     then if !@bytes_read = 0 then Error (retval : error_code) else Ok !@bytes_read
     else Error (retval : error_code)
 
-  let read_ba_f32 mh ~buf ~len =
+  let read_ba mh ~buf ~len =
     let bytes_read = allocate int 0 in
     let ps = to_voidp (bigarray_start array1 buf) in
     let retval = mpg123_read mh ps len bytes_read in

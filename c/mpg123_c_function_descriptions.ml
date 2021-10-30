@@ -22,6 +22,10 @@ module Functions (F : Ctypes.FOREIGN) = struct
     foreign "mpg123_current_decoder" (ptr Types.Handle.t @-> returning string)
 
   let mpg123_open = foreign "mpg123_open" (ptr Types.Handle.t @-> string @-> returning int)
+
+  let mpg123_open_fixed =
+    foreign "mpg123_open_fixed" (ptr Types.Handle.t @-> string @-> int @-> int @-> returning int)
+
   let mpg123_close = foreign "mpg123_close" (ptr Types.Handle.t @-> returning int)
 
   let mpg123_read =
