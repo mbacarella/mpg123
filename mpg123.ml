@@ -136,12 +136,22 @@ module Functions = struct
        for app latency. *)
     assert (CArray.length buf = Bytes.length bytes);
     for i = 0 to pred (CArray.length buf) do
-      Bytes.unsafe_set bytes i (CArray.unsafe_get buf i)
+      Bytes.set bytes i (CArray.get buf i)
     done
 
   let read mh ~buf ~len =
     let bytes_read = allocate int 0 in
-    let retval = mpg123_read mh (CArray.start buf) len bytes_read in
+    let retval = mpg123_read mh (to_voidp (CArray.start buf)) len bytes_read in
+    if retval = ok
+    then Ok !@bytes_read
+    else if retval = done_
+    then if !@bytes_read = 0 then Error (retval : error_code) else Ok !@bytes_read
+    else Error (retval : error_code)
+
+  let read_ba_f32 mh ~buf ~len =
+    let bytes_read = allocate int 0 in
+    let ps = to_voidp (bigarray_start array1 buf) in
+    let retval = mpg123_read mh ps len bytes_read in
     if retval = ok
     then Ok !@bytes_read
     else if retval = done_
