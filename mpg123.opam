@@ -8,11 +8,11 @@ license: "LGPL-2.1-or-later with OCaml-LGPL-linking-exception"
 homepage: "https://github.com/mbacarella/mpg123"
 bug-reports: "https://github.com/mbacarella/mpg123/issues"
 depends: [
-  "ocaml" {>= "4.03"}
   "dune" {>= "3.0"}
+  "ocaml" {>= "4.03"}
   "dune-configurator"
   "conf-pkg-config"
-  "ctypes"
+  "ctypes" {>= "0.13.0"}
   "ctypes-foreign"
   "conf-libmpg123"
   "odoc" {with-doc}

@@ -14,6 +14,8 @@
 
 (maintainers "Michael Bacarella <m@bacarella.com>")
 
+(homepage "https://github.com/mbacarella/mpg123")
+
 (source
  (github mbacarella/mpg123))
 
@@ -24,9 +26,9 @@
  (depends
   (ocaml
    (>= 4.03))
-  dune
   dune-configurator
   conf-pkg-config
-  ctypes
+  (ctypes
+   (>= 0.13.0))
   ctypes-foreign
   conf-libmpg123))
