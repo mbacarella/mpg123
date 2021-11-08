@@ -9,7 +9,7 @@ homepage: "https://github.com/mbacarella/mpg123"
 bug-reports: "https://github.com/mbacarella/mpg123/issues"
 depends: [
   "ocaml" {>= "4.03"}
-  "dune" {>= "2.8" & >= "2.8"}
+  "dune" {>= "3.0"}
   "dune-configurator"
   "conf-pkg-config"
   "ctypes"
@@ -26,8 +26,11 @@ build: [
     name
     "-j"
     jobs
+    "--promote-install-files=false"
     "@install"
     "@runtest" {with-test}
     "@doc" {with-doc}
   ]
+  ["dune" "install" "-p" name "--create-install-files" name]
 ]
+dev-repo: "git+https://github.com/mbacarella/mpg123.git"
