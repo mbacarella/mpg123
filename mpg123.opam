@@ -9,8 +9,9 @@ homepage: "https://github.com/mbacarella/mpg123"
 bug-reports: "https://github.com/mbacarella/mpg123/issues"
 depends: [
   "dune" {>= "3.0"}
-  "ocaml" {>= "4.03"}
   "ctypes" {>= "0.13.0"}
+  "ocaml" {>= "4.03"}
+  "ppx_inline_test"
   "odoc" {with-doc}
 ]
 build: [

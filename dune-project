@@ -24,7 +24,8 @@
  (synopsis "MP3 decoding library")
  (description "OCaml bindings to libmpg123")
  (depends
+  (ctypes
+   (>= 0.13.0))
   (ocaml
    (>= 4.03))
-  (ctypes
-   (>= 0.13.0))))
+  ppx_inline_test))

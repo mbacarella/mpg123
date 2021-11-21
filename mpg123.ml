@@ -321,3 +321,43 @@ module Functions = struct
 end
 
 include Functions
+
+let%test_module "mpg123" =
+  (module struct
+    let%test "no-op" = true
+
+    let lib_init () =
+      match init () with
+      | Ok _ -> ()
+      | Error e -> failwith (Printf.sprintf "failed to init library: %d" e)
+
+    let lib_exit = exit
+
+    let%test "init-then-exit" =
+      lib_init ();
+      lib_exit ();
+      true
+
+    let%test "new-then-delete" =
+      lib_init ();
+      let mh =
+        match new_ () with
+        | Error e -> failwith (Printf.sprintf "new failed: %d" e)
+        | Ok mh -> mh
+      in
+      delete mh;
+      lib_exit ();
+      true
+
+    let%test "has-decoders" =
+      lib_init ();
+      let res = List.length (decoders ()) > 0 in
+      lib_exit ();
+      res
+
+    let%test "has-supported-decoders" =
+      lib_init ();
+      let res = List.length (supported_decoders ()) > 0 in
+      lib_exit ();
+      res
+  end)

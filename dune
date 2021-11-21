@@ -41,4 +41,7 @@
    (instance Functions)
    (functor Function_description))
   (generated_types Types_generated)
-  (generated_entry_point C)))
+  (generated_entry_point C))
+ (inline_tests)
+ (preprocess
+  (pps ppx_inline_test)))
