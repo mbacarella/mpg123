@@ -44,11 +44,16 @@ val close : handle -> (unit, error_code) result
    A safe example of calling read_ba is:
    ```
      let bufsize = 32768 in
-     let bytes_per_sample = 4 in
+     let bytes_per_sample = 4 in (* size of float32 *)
+     let num_channels = 2 in (* stereo *)
      let buf = Bigarray.Array1.create Bigarray.Float32 Bigarray.c_layout bufsize in
      match Mpg123.read_ba handle ~buf ~len_in_bytes:(bufsize * bytes_per_sample) with
      | Error errcode -> failwithf "Mpg123.read_ba: %s" (strerror errcode) ()
-     | Ok bytes_read -> ...
+     | Ok bytes_read ->
+       assert (bytes_read >= 0);
+       let samples_read = bytes_read / bytes_per_sample in
+       let frames_read = samples_read / num_channels in
+       ...
    ```
  *)
 val read_ba
