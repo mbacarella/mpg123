@@ -25,4 +25,6 @@ Status
 
 There's just enough here to open an mp3, query some metadata, and read audio.
 
+See the changelog at [CHANGES.md](CHANGES.md).
+
 Contributions welcome.
