@@ -34,9 +34,19 @@ val open_ : handle -> path:string -> (unit, error_code) result
 val open_fixed : handle -> path:string -> channels:int -> encoding:int -> (unit, error_code) result
 val close : handle -> (unit, error_code) result
 
+(* A reasonable way to call Mpg123.read_ba is:
+
+  let bufsize = 32768 in
+  let bytes_per_sample = 4 in
+  let buf = Bigarray.Array1.create Bigarray.Float32 Bigarray.c_layout bufsize in
+  match Mpg123.read_ba handle ~buf ~len:(bufsize * bytes_per_sample) with
+  | Error errcode -> failwithf "Mpg123.read_ba: %s" (strerror errcode) ()
+  | Ok bytes_read ->
+    ...
+ *)
 val read_ba
   :  handle ->
-  buf:(float, Bigarray.float32_elt, Bigarray.c_layout) Bigarray.Array1.t ->
+  buf:('a, 'b, Bigarray.c_layout) Bigarray.Array1.t ->
   len:int ->
   (int, error_code) result
 
