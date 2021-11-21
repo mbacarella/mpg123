@@ -123,8 +123,14 @@ module Functions = struct
   let decoder mh ~decoder_name = ok_unit_or_err (mpg123_decoder mh decoder_name)
   let current_decoder = mpg123_current_decoder
   let open_ mh ~path = ok_unit_or_err (mpg123_open mh path)
+
+  let open_fixed mh ~path ~channels ~encoding =
+    ok_unit_or_err (mpg123_open_fixed mh path channels encoding)
+
   let close mh = ok_unit_or_err (mpg123_close mh)
 
+  (* 2021-11-21 mbac: this approach was eliminated in favor of bigarrays *)
+  (*
   type buf = char CArray.t
 
   let create_buf len = CArray.make char ~initial:'\x00' len
@@ -142,6 +148,17 @@ module Functions = struct
   let read mh ~buf ~len =
     let bytes_read = allocate int 0 in
     let retval = mpg123_read mh (CArray.start buf) len bytes_read in
+    if retval = ok
+    then Ok !@bytes_read
+    else if retval = done_
+    then if !@bytes_read = 0 then Error (retval : error_code) else Ok !@bytes_read
+    else Error (retval : error_code)
+     *)
+
+  let read_ba mh ~buf ~len =
+    let bytes_read = allocate int 0 in
+    let buf_ptr = to_voidp (bigarray_start array1 buf) in
+    let retval = mpg123_read mh buf_ptr len bytes_read in
     if retval = ok
     then Ok !@bytes_read
     else if retval = done_

@@ -31,13 +31,15 @@ val supported_decoders : unit -> string list
 val decoder : handle -> decoder_name:string -> (unit, error_code) result
 val current_decoder : handle -> string
 val open_ : handle -> path:string -> (unit, error_code) result
+val open_fixed : handle -> path:string -> channels:int -> encoding:int -> (unit, error_code) result
 val close : handle -> (unit, error_code) result
 
-type buf
+val read_ba
+  :  handle ->
+  buf:(float, Bigarray.float32_elt, Bigarray.c_layout) Bigarray.Array1.t ->
+  len:int ->
+  (int, error_code) result
 
-val create_buf : int -> buf
-val copy_buf_to_bytes : buf -> Bytes.t -> unit
-val read : handle -> buf:buf -> len:int -> (int, error_code) result
 val scan : handle -> (unit, error_code) result
 val length : handle -> (int, error_code) result
 val meta_check : handle -> flags
