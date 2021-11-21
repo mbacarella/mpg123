@@ -1,17 +1,44 @@
+(data_only_dirs vendor)
+
+(rule
+ (targets libmpg123.a dllmpg123%{ext_dll})
+ (deps
+  (source_tree vendor))
+ (action
+  (no-infer
+   (progn
+    (chdir
+     vendor/mpg123-1.29.2
+     (progn
+      (bash
+       "sh configure --with-pic=yes --with-audio=dummy --enable-static=yes --enable-silent-rules")
+      (bash "make")))
+    (copy vendor/mpg123-1.29.2/src/libmpg123/.libs/libmpg123.a libmpg123.a)
+    (copy
+     vendor/mpg123-1.29.2/src/libmpg123/.libs/libmpg123%{ext_dll}
+     dllmpg123%{ext_dll})))))
+
 (library
-  (name mpg123)
-  (public_name mpg123)
-  (flags (:standard -w -9-27))
-  (ctypes
-    (external_library_name mpg123)
-    (build_flags_resolver pkg_config)
-    (headers (include "mpg123.h"))
-    (type_description
-      (instance Types)
-      (functor Type_description))
-    (function_description
-      (concurrency unlocked)
-      (instance Functions)
-      (functor Function_description))
-    (generated_types Types_generated)
-    (generated_entry_point C)))
+ (name mpg123)
+ (public_name mpg123)
+ (flags
+  (:standard -w -9-27))
+ (foreign_archives mpg123)
+ (ctypes
+  (external_library_name mpg123)
+  (build_flags_resolver
+   (vendored
+    (c_flags
+     (-fPIC -I vendor/mpg123-1.29.2/src/libmpg123/))
+    (c_library_flags ())))
+  (headers
+   (include "mpg123.h"))
+  (type_description
+   (instance Types)
+   (functor Type_description))
+  (function_description
+   (concurrency unlocked)
+   (instance Functions)
+   (functor Function_description))
+  (generated_types Types_generated)
+  (generated_entry_point C)))

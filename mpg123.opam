@@ -4,17 +4,14 @@ synopsis: "MP3 decoding library"
 description: "OCaml bindings to libmpg123"
 maintainer: ["Michael Bacarella <m@bacarella.com>"]
 authors: ["Michael Bacarella <m@bacarella.com>"]
-license: "LGPL-2.1-or-later with OCaml-LGPL-linking-exception"
+license: "LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception"
 homepage: "https://github.com/mbacarella/mpg123"
 bug-reports: "https://github.com/mbacarella/mpg123/issues"
 depends: [
+  "dune" {>= "3.0"}
   "ocaml" {>= "4.03"}
-  "dune" {>= "2.8" & >= "2.8"}
-  "dune-configurator"
-  "conf-pkg-config"
-  "ctypes"
+  "ctypes" {>= "0.13.0"}
   "ctypes-foreign"
-  "conf-libmpg123"
   "odoc" {with-doc}
 ]
 build: [
@@ -26,8 +23,11 @@ build: [
     name
     "-j"
     jobs
+    "--promote-install-files=false"
     "@install"
     "@runtest" {with-test}
     "@doc" {with-doc}
   ]
+  ["dune" "install" "-p" name "--create-install-files" name]
 ]
+dev-repo: "git+https://github.com/mbacarella/mpg123.git"

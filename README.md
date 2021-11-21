@@ -1,3 +1,5 @@
+![main workflow](https://github.com/mbacarella/curses/actions/workflows/workflow.yml/badge.svg)
+
 This is an OCaml package that provides bindings to the mpg123 library.
 
 It uses the excellent ctypes library to generate the C-stubs which should help
