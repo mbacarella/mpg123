@@ -1,5 +1,6 @@
 (* This is a very thin wrapper over the functions in mpg123.h.
-   You should reference that for the particulars of how to call
+
+   In general you should reference that for the particulars of how to call
    these functions. *)
 type error_code = int
 type flags = int
@@ -34,20 +35,26 @@ val open_ : handle -> path:string -> (unit, error_code) result
 val open_fixed : handle -> path:string -> channels:int -> encoding:int -> (unit, error_code) result
 val close : handle -> (unit, error_code) result
 
-(* A reasonable way to call Mpg123.read_ba is:
+(* [read_ba handle bigarray len] reads len number of bytes into your bigarray.
 
-  let bufsize = 32768 in
-  let bytes_per_sample = 4 in
-  let buf = Bigarray.Array1.create Bigarray.Float32 Bigarray.c_layout bufsize in
-  match Mpg123.read_ba handle ~buf ~len:(bufsize * bytes_per_sample) with
-  | Error errcode -> failwithf "Mpg123.read_ba: %s" (strerror errcode) ()
-  | Ok bytes_read ->
-    ...
+   It's up to you to manage the translation between the size of the elements in
+   your array and the bytes you request. Additionally, this can fail badly if you
+   pass a float bigarray but opened the mp3 with a different encoding.
+
+   A safe example of calling read_ba is:
+   ```
+     let bufsize = 32768 in
+     let bytes_per_sample = 4 in
+     let buf = Bigarray.Array1.create Bigarray.Float32 Bigarray.c_layout bufsize in
+     match Mpg123.read_ba handle ~buf ~len_in_bytes:(bufsize * bytes_per_sample) with
+     | Error errcode -> failwithf "Mpg123.read_ba: %s" (strerror errcode) ()
+     | Ok bytes_read -> ...
+   ```
  *)
 val read_ba
   :  handle ->
   buf:('a, 'b, Bigarray.c_layout) Bigarray.Array1.t ->
-  len:int ->
+  len_in_bytes:int ->
   (int, error_code) result
 
 val scan : handle -> (unit, error_code) result

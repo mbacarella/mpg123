@@ -129,36 +129,10 @@ module Functions = struct
 
   let close mh = ok_unit_or_err (mpg123_close mh)
 
-  (* 2021-11-21 mbac: this approach was eliminated in favor of bigarrays *)
-  (*
-  type buf = char CArray.t
-
-  let create_buf len = CArray.make char ~initial:'\x00' len
-
-  let copy_buf_to_bytes buf bytes =
-    (* We could eliminate this copy by switching to ocaml_bytes_start
-       and using the ocaml_bytes type in foreign, but it force us to
-       hold the runtime lock during the read, which would be worse
-       for app latency. *)
-    assert (CArray.length buf = Bytes.length bytes);
-    for i = 0 to pred (CArray.length buf) do
-      Bytes.unsafe_set bytes i (CArray.unsafe_get buf i)
-    done
-
-  let read mh ~buf ~len =
-    let bytes_read = allocate int 0 in
-    let retval = mpg123_read mh (CArray.start buf) len bytes_read in
-    if retval = ok
-    then Ok !@bytes_read
-    else if retval = done_
-    then if !@bytes_read = 0 then Error (retval : error_code) else Ok !@bytes_read
-    else Error (retval : error_code)
-     *)
-
-  let read_ba mh ~buf ~len =
+  let read_ba mh ~buf ~len_in_bytes =
     let bytes_read = allocate int 0 in
     let buf_ptr = to_voidp (bigarray_start array1 buf) in
-    let retval = mpg123_read mh buf_ptr len bytes_read in
+    let retval = mpg123_read mh buf_ptr len_in_bytes bytes_read in
     if retval = ok
     then Ok !@bytes_read
     else if retval = done_
