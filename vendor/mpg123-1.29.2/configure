@@ -3225,12 +3225,7 @@ program_transform_name=`$as_echo "$program_transform_name" | sed "$ac_script"`
 am_aux_dir=`cd "$ac_aux_dir" && pwd`
 
 if test x"${MISSING+set}" != xset; then
-  case $am_aux_dir in
-  *\ * | *\	*)
-    MISSING="\${SHELL} \"$am_aux_dir/missing\"" ;;
-  *)
-    MISSING="\${SHELL} $am_aux_dir/missing" ;;
-  esac
+  MISSING="\${SHELL} '$am_aux_dir/missing'"
 fi
 # Use eval to expand $SHELL
 if eval "$MISSING --is-lightweight"; then
@@ -17435,8 +17430,8 @@ $as_echo "$ac_cv_lib_pthread_sem_post" >&6; }
 if test "x$ac_cv_lib_pthread_sem_post" = xyes; then :
 
 pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for JACK" >&5
-$as_echo_n "checking for JACK... " >&6; }
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for jack" >&5
+$as_echo_n "checking for jack... " >&6; }
 
 if test -n "$JACK_CFLAGS"; then
     pkg_cv_JACK_CFLAGS="$JACK_CFLAGS"
@@ -17476,7 +17471,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -17494,7 +17489,7 @@ fi
 
 	 HAVE_JACK="no" check_failed=yes
 elif test $pkg_failed = untried; then
-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 	 HAVE_JACK="no" check_failed=yes
 else
@@ -17518,8 +17513,8 @@ fi
 		pulse)
 
 pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for PULSE" >&5
-$as_echo_n "checking for PULSE... " >&6; }
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for libpulse-simple" >&5
+$as_echo_n "checking for libpulse-simple... " >&6; }
 
 if test -n "$PULSE_CFLAGS"; then
     pkg_cv_PULSE_CFLAGS="$PULSE_CFLAGS"
@@ -17559,7 +17554,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -17577,7 +17572,7 @@ fi
 
 	HAVE_PULSE="no" check_failed=yes
 elif test $pkg_failed = untried; then
-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 	HAVE_PULSE="no" check_failed=yes
 else
@@ -17591,8 +17586,8 @@ fi
 		esd)
 
 pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for ESD" >&5
-$as_echo_n "checking for ESD... " >&6; }
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for esound" >&5
+$as_echo_n "checking for esound... " >&6; }
 
 if test -n "$ESD_CFLAGS"; then
     pkg_cv_ESD_CFLAGS="$ESD_CFLAGS"
@@ -17632,7 +17627,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -17650,7 +17645,7 @@ fi
 
 	HAVE_ESD="no" check_failed=yes
 elif test $pkg_failed = untried; then
-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 	HAVE_ESD="no" check_failed=yes
 else
@@ -17830,8 +17825,8 @@ fi
 		sdl)
 
 pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for SDL" >&5
-$as_echo_n "checking for SDL... " >&6; }
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for sdl2" >&5
+$as_echo_n "checking for sdl2... " >&6; }
 
 if test -n "$SDL_CFLAGS"; then
     pkg_cv_SDL_CFLAGS="$SDL_CFLAGS"
@@ -17871,7 +17866,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -17889,7 +17884,7 @@ fi
 
 	HAVE_SDL="no" check_failed=yes
 elif test $pkg_failed = untried; then
-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 	HAVE_SDL="no" check_failed=yes
 else
@@ -17903,8 +17898,8 @@ fi
 				check_failed=no
 
 pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for SDL" >&5
-$as_echo_n "checking for SDL... " >&6; }
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for sdl" >&5
+$as_echo_n "checking for sdl... " >&6; }
 
 if test -n "$SDL_CFLAGS"; then
     pkg_cv_SDL_CFLAGS="$SDL_CFLAGS"
@@ -17944,7 +17939,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -17962,7 +17957,7 @@ fi
 
 	HAVE_SDL="no" check_failed=yes
 elif test $pkg_failed = untried; then
-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 	HAVE_SDL="no" check_failed=yes
 else
@@ -21588,7 +21583,9 @@ $as_echo X/"$am_mf" |
     { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
 $as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
 as_fn_error $? "Something went wrong bootstrapping makefile fragments
-    for automatic dependency tracking.  Try re-running configure with the
+    for automatic dependency tracking.  If GNU make was not used, consider
+    re-running the configure script with MAKE=\"gmake\" (or whatever is
+    necessary).  You can also try re-running configure with the
     '--disable-dependency-tracking' option to at least be able to build
     the package (albeit without support for automatic dependency tracking).
 See \`config.log' for more details" "$LINENO" 5; }
