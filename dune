@@ -12,7 +12,11 @@
      (progn
       (bash
        "sh configure --with-pic=yes --with-audio=dummy --enable-static=yes --enable-silent-rules")
-      (bash "make")))
+      (bash "make")
+      ; MacOS X hack: make insists on creating a .dylib file but %{ext_dll}
+      ; evaluates to .so on this platform, so just copy it
+      (bash
+       "test -e src/libmpg123/.libs/libmpg123.dylib && cp -f src/libmpg123/.libs/libmpg123.dylib src/libmpg123/.libs/libmpg123.so")))
     (copy vendor/mpg123-1.29.2/src/libmpg123/.libs/libmpg123.a libmpg123.a)
     (copy
      vendor/mpg123-1.29.2/src/libmpg123/.libs/libmpg123%{ext_dll}
