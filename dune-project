@@ -1,4 +1,4 @@
-(lang dune 3.0)
+(lang dune 3.2)
 
 (using ctypes 0.1)
 
