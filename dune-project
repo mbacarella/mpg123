@@ -1,4 +1,8 @@
-(lang dune 2.7)
+(lang dune 3.2)
+
+(using ctypes 0.1)
+
+(use_standard_c_and_cxx_flags false)
 
 (name mpg123)
 
@@ -20,11 +24,8 @@
  (synopsis "MP3 decoding library")
  (description "OCaml bindings to libmpg123")
  (depends
-  (ocaml
-   (>= 4.03))
-  dune-configurator
-  conf-pkg-config
   (ctypes
    (>= 0.13.0))
-  ctypes-foreign
-  conf-libmpg123))
+  (ocaml
+   (>= 4.03))
+  ppx_inline_test))
